@@ -1,34 +1,26 @@
 # Tanks
 
 ## Socket API
-To make a move, send an effect over the channel.
 ```js
-effectPayloadSchema = {
-  type: 'object',
-  properties: {
-    move: {
-      type: 'string',
-      enum: ['up', 'down', 'left', 'right']
-    },
-    rotate: {
-      type: 'string',
-      enum: ['right', 'left']
-    },
-    shoot: {
-      type: 'boolean'
-    }
-  }
-};
+// Join the socket with a userName
+const socket = new Socket('/', {params: {userName: 'alex'}});
+socket.connect();
 
-channel
-  .push('effect', effectPayload)
-  .receive('ack', payload => console.log('effect ack\'d', payload))
-  .receive('failed', payload => console.log('effect failed', payload));
-```
+// Join the channel with a game name
+const channel = socket.channel('game_session:my-game');
 
-Whenever a user makes a move, a new user view is pushed to each user in the game
-```js
-userViewSchema = {
+// To subscribe to updates, add a view_update handler
+// views will follow the userViewSchema below
+channel.on('view_update', view => console.log('got new view', view));
+
+// To make a move, send a command over the channel.
+channel.push('move', {direction: ['left'|'right'|'up'|'down']});
+channel.push('turn', {direction: ['left'|'right']});
+channel.push('shoot');
+channel.push('get_view');
+
+// Whenever a user makes a move, a new user view is pushed to each user in the game
+const userViewSchema = {
   type: 'object',
   properties: {
     positions: {
@@ -63,6 +55,4 @@ userViewSchema = {
   },
   required: ['positions']
 };
-
-channel.on('view_update', userView => console.log('got new view', userView));
 ```

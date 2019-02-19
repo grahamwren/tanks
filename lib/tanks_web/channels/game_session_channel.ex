@@ -13,6 +13,10 @@ defmodule TanksWeb.GameSessionChannel do
     end
   end
 
+  def handle_in("get_view", _, socket) do
+    {:reply, GameServer.get_view(socket.assigns.name, socket.assigns.user_name), socket}
+  end
+
   def handle_in("move", %{"direction" => direction}, socket) do
     game_name = socket.assigns.name
     view = GameServer.move(game_name, socket.assigns.user_name, direction)

@@ -40,6 +40,7 @@ defmodule Tanks.GameServer do
 
   # Static External API - Game Interface
 
+  def get_view(name, user), do: __MODULE__.call(name, {:get_view, %{user: user}})
   def join(name, user), do: __MODULE__.call(name, {:join, %{user: user}})
   def shoot(name, user), do: __MODULE__.call(name, {:shoot, %{user: user}})
   def move(name, user, direction), do: __MODULE__.call(name, {:move, %{
@@ -56,6 +57,12 @@ defmodule Tanks.GameServer do
   @impl true
   def init(state) do
     {:ok, state}
+  end
+
+  @impl true
+  def handle_call({:get_view, %{user: user}}, _from, game) do
+    user_view_state = Game.get_user_view(game, user)
+    {:reply, user_view_state, game}
   end
 
   @impl true
