@@ -19,8 +19,8 @@ defmodule TanksWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(params, socket) do
+    {:ok, assign(socket, :user_name, params["user_name"])}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -33,5 +33,5 @@ defmodule TanksWeb.UserSocket do
   #     TanksWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket), do: "user_socket:#{socket.assigns.user_name}}"
 end

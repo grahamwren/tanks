@@ -1,33 +1,41 @@
 defmodule TanksWeb.GameSessionChannel do
   use TanksWeb, :channel
+  alias Tanks.GameServer
 
-  def join("game_session:" <> name, %{"userName" => user_name}, socket) do
-    if authorized?(payload) do
-      socket =
-        socket
-        |> assign(:name, name)
-        |> assign(:user, user_name)
+  def join("game_session:" <> name, _, socket) do
+    user_name = socket.assigns.user_name
+    if authorized?(name, user_name) do
+      {:ok, _} = GameServer.get name
+      socket = assign(socket, :name, name)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
   end
 
-  def handle_in("effect", %{}, socket) do
-    {:reply, :ack, socket}
+  def handle_in("move", %{"direction" => direction}, socket) do
+    game_name = socket.assigns.name
+    view = GameServer.move(game_name, socket.assigns.user_name, direction)
+    TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
+    {:noreply, socket}
   end
 
-  def handle_in("ping", payload, socket) do
-    {:reply, {:ok, payload}, socket}
+  def handle_in("turn", %{"direction" => direction}, socket) do
+    game_name = socket.assigns.name
+    view = GameServer.turn(game_name, socket.assigns.user_name, direction)
+    TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
+    {:noreply, socket}
   end
 
-  def handle_in("shout", payload, socket) do
-    broadcast socket, "shout", payload
+  def handle_in("shoot", _, socket) do
+    game_name = socket.assigns.name
+    view = GameServer.shoot(game_name, socket.assigns.user_name)
+    TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
     {:noreply, socket}
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_payload) do
+  defp authorized?(_game_name, _user) do
     true
   end
 end

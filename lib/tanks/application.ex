@@ -10,8 +10,9 @@ defmodule Tanks.Application do
     children = [
       # Start the endpoint when the application starts
       supervisor(TanksWeb.Endpoint, []),
-      # Start your own worker by calling: Tanks.Worker.start_link(arg1, arg2, arg3)
-      # worker(Tanks.Worker, [arg1, arg2, arg3]),
+      # Start GameServer Supervisor and BackupAgent
+      Tanks.GameServerSuper,
+      Tanks.GameBackupAgent
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
