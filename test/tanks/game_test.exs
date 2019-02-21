@@ -3,7 +3,7 @@ defmodule Memory.GameTest do
   alias Tanks.Game
 
   test "new game" do
-    {:ok, game} = Game.new "helloGame"
+    game = Game.new "helloGame"
     assert game == %Game{
       name: "helloGame",
       users: [],
@@ -12,7 +12,7 @@ defmodule Memory.GameTest do
   end
 
   test "join game" do
-    {:ok, game} = Game.new "game2"
+    game = Game.new "game2"
     game = Game.join(game, "joe")
     %Game{
       name: "game2",
@@ -32,7 +32,7 @@ defmodule Memory.GameTest do
   end
 
   test "join game multi users" do
-    {:ok, game} = Game.new "game2"
+    game = Game.new "game2"
     game =
       game
       |> Game.join("joe")
@@ -55,7 +55,7 @@ defmodule Memory.GameTest do
   end
 
   test "move" do
-    {:ok, game} = Game.new "game"
+    game = Game.new "game"
     game = Game.join(game, "alex")
     old_user_position = Enum.at(game.users, 0).position
 
@@ -74,7 +74,7 @@ defmodule Memory.GameTest do
   end
 
   test "turn" do
-    {:ok, game} = Game.new "games"
+    game = Game.new "games"
     game = Game.join(game, "alex")
     old_user_position = Enum.at(game.users, 0).position
 
