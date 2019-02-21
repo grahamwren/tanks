@@ -39,7 +39,7 @@ defmodule TanksWeb.GameSessionChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_game_name, _user) do
-    true
+  defp authorized?(game_name, user) do
+    user !== "" && user !== nil && game_name !== "" && game_name !== nil
   end
 end

@@ -9,28 +9,28 @@ defmodule Tanks.Game do
    def join(game, user) do
      %Game{
        game |
-       actions: [{:join, user} | game.actions]
+       actions: [[:join, user] | game.actions]
      }
    end
 
    def shoot(game, user) do
      %Game{
        game |
-       actions: [{:shoot, user} | game.actions]
+       actions: [[:shoot, user] | game.actions]
      }
    end
 
    def move(game, user, direction) do
      %Game{
        game |
-       actions: [{:move, user, direction} | game.actions]
+       actions: [[:move, user, direction] | game.actions]
      }
    end
 
    def turn(game, user, direction) do
      %Game{
        game |
-       actions: [{:turn, user, direction} | game.actions]
+       actions: [[:turn, user, direction] | game.actions]
      }
    end
 
