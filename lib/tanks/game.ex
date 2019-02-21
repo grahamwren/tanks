@@ -34,7 +34,28 @@ defmodule Tanks.Game do
      }
    end
 
-   def get_user_view(game, user) do
-     %{target: user, game: game}
+   def get_user_view(game, _user) do
+     %{
+       positions: [
+         %{
+           user_name: "bill",
+           position: %{
+             x: 50,
+             y: 100,
+             shoot_angle: 45
+           }
+         },
+         %{
+           user_name: "joe",
+           position: %{
+             x: 50,
+             y: 100,
+             shoot_angle: 45
+           }
+         }
+       ],
+       actions: game.actions,
+       name: game.name
+     }
    end
 end
