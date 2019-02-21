@@ -12,7 +12,7 @@ defmodule Tanks.Game do
   alias Tanks.Game
 
   def new(name) do
-    {:ok, %Game{name: name}}
+    %Game{name: name}
   end
 
   def join(game, user_name) do

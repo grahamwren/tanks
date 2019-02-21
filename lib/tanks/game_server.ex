@@ -11,7 +11,7 @@ defmodule Tanks.GameServer do
   end
 
   def start_link(name) do
-    {:ok, game} = GameBackupAgent.get(name) || Game.new(name)
+    game = GameBackupAgent.get(name) || Game.new(name)
     GenServer.start_link __MODULE__, game, name: reg(name)
   end
 
