@@ -11,7 +11,7 @@ defmodule Tanks.GameServer do
   end
 
   def start_link(name) do
-    game = GameBackupAgent.get(name) || Game.new(name)
+    {:ok, game} = GameBackupAgent.get(name) || Game.new(name)
     GenServer.start_link __MODULE__, game, name: reg(name)
   end
 
@@ -69,7 +69,7 @@ defmodule Tanks.GameServer do
   def handle_call({:join, %{user: user}}, _from, game) do
     game = Game.join(game, user)
     user_view_state = Game.get_user_view(game, user)
-    GameBackupAgent.put game.name, game
+    {:ok, _} = GameBackupAgent.put game.name, game
     {:reply, user_view_state, game}
   end
 
@@ -77,7 +77,7 @@ defmodule Tanks.GameServer do
   def handle_call({:shoot, %{user: user}}, _from, game) do
     game = Game.shoot(game, user)
     user_view_state = Game.get_user_view(game, user)
-    GameBackupAgent.put game.name, game
+    {:ok, _} = GameBackupAgent.put game.name, game
     {:reply, user_view_state, game}
   end
 
@@ -85,7 +85,7 @@ defmodule Tanks.GameServer do
   def handle_call({:move, %{user: user, direction: direction}}, _from, game) do
     game = Game.move(game, user, direction)
     user_view_state = Game.get_user_view(game, user)
-    GameBackupAgent.put game.name, game
+    {:ok, _} = GameBackupAgent.put game.name, game
     {:reply, user_view_state, game}
   end
 
@@ -93,7 +93,7 @@ defmodule Tanks.GameServer do
   def handle_call({:turn, %{user: user, direction: direction}}, _from, game) do
     game = Game.turn(game, user, direction)
     user_view_state = Game.get_user_view(game, user)
-    GameBackupAgent.put game.name, game
+    {:ok, _} = GameBackupAgent.put game.name, game
     {:reply, user_view_state, game}
   end
 end
