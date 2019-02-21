@@ -7,7 +7,7 @@ defmodule TanksWeb.GameSessionChannel do
     if authorized?(name, user_name) do
       {:ok, _} = GameServer.get name
       socket = assign(socket, :name, name)
-      {:ok, socket}
+      {:ok, GameServer.get_view(name, user_name), socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
@@ -33,13 +33,13 @@ defmodule TanksWeb.GameSessionChannel do
 
   def handle_in("shoot", _, socket) do
     game_name = socket.assigns.name
-    view = GameServer.shoot(game_name, socket.assigns.user_name)
+    view = GameServer.shoot(game_name, socket.assigns.user_name)  
     TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
     {:noreply, socket}
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_game_name, _user) do
-    true
+  defp authorized?(game_name, user) do
+    user !== "" && user !== nil && game_name !== "" && game_name !== nil
   end
 end
