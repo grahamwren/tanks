@@ -6,6 +6,7 @@ defmodule TanksWeb.GameSessionChannel do
     user_name = socket.assigns.user_name
     if authorized?(name, user_name) do
       {:ok, _} = GameServer.get name
+      GameServer.join(name, user_name)
       socket = assign(socket, :name, name)
       {:ok, GameServer.get_view(name, user_name), socket}
     else
