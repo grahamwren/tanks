@@ -6,10 +6,10 @@ defmodule Tanks.GameBackupAgent do
   end
 
   def put(key, value) do
-    Agent.update __MODULE__, fn map -> Map.put(map, key, value) end
+    {:ok, Agent.update(__MODULE__, fn map -> Map.put(map, key, value) end)}
   end
 
   def get(key) do
-    Agent.get __MODULE__, fn map -> Map.get(map, key) end
+    {:ok, Agent.get(__MODULE__, fn map -> Map.get(map, key) end)}
   end
 end
