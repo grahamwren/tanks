@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default function hangman_init(root, channel) {
+export default function tanks_init(root, channel) {
   ReactDOM.render(<Tanks channel={channel} />, root);
 }
 

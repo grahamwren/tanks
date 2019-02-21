@@ -13,23 +13,51 @@
 
   <body>
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+      <%# <nav class="navbar navbar-expand-sm navbar-light bg-white">
+        <div class="col-4">
+          <a class="navbar-brand" href="#">Tanks</a>
+        </div>
+        <div class="col-8">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Products</a>
+            </li>
           </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+        </div>
+      </nav> %>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <a class="navbar-brand" href="#">Tanks</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+      <div class="row">
+        <div class="col-12">
+          <%= if get_flash(@conn, :info) do %>
+            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <% end %>
+          <%= if get_flash(@conn, :error) do %>
+            <p class="alert alert-danger" role="alert">
+              <%= get_flash(@conn, :error) %>
+            </p>
+          <% end %>
+        </div>
+      </div>
 
-    </div> <!-- /container -->
+      <%= render @view_module, @view_template, assigns %>
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
