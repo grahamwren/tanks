@@ -3,10 +3,13 @@
   "license": "MIT",
   "scripts": {
     "deploy": "webpack --mode production",
-    "watch": "webpack --mode development --watch"
+    "watch": "webpack --mode development --watch",
+    "lint": "./node_modules/.bin/eslint js --ext .js --ext .jsx",
+    "lint-path": "./node_modules/.bin/eslint --ext .js --ext .jsx"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "glob": "^7.1.3",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "phoenix": "file:../deps/phoenix",
@@ -19,9 +22,16 @@
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "acorn": "^6.1.0",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^4.5.0",
     "css-loader": "^0.28.10",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
