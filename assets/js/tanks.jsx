@@ -5,6 +5,15 @@ export default function tanks_init(root, channel) {
   ReactDOM.render(<Tanks channel={channel} />, root);
 }
 
+const m = {
+    ArrowRight: (channel, cb) => channel.push('move', { direction: 'right' }).receive('ok', cb),
+    ArrowLeft: (channel, cb) => channel.push('move', { direction: 'left' }).receive('ok', cb),
+    ArrowUp: (channel, cb) => channel.push('move', { direction: 'up' }).receive('ok', cb),
+    ArrowDown: (channel, cb) => channel.push('move', { direction: 'down' }).receive('ok', cb),
+    a: (channel, cb) => channel.push('turn', { direction: 'left' }).receive('ok', cb),
+    d:  (channel, cb)=> channel.push('turn', { direction: 'right' }).receive('ok', cb),
+    ' ': (channel, cb) => channel.push('shoot').receive('ok', cb)
+}
 class Tanks extends React.Component {
     constructor(props) {
         super(props)
@@ -15,34 +24,17 @@ class Tanks extends React.Component {
             .join()
             .receive('ok', this.gotView.bind(this))
             .receive('error', resp => { console.log('Unable to join', resp); })
+        
+        this.channel.on('view_update', this.gotView.bind(this))
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', (e) => this.handleKeyDown(e))
+        document.addEventListener('keydown', (e) => (m[e.key] || (()=>{}))(this.channel, this.gotView.bind(this)))
     }
 
     gotView(view) {
         console.log('View:', view)
         this.setState(view.game)
-    }
-
-    handleKeyDown(e) {
-        switch(e.key) {
-            case 'ArrowUp':
-                this.channel.push('move', { direction: 'up' }).receive('ok', this.gotView.bind(this))
-            case 'ArrowDown':
-                this.channel.push('move', { direction: 'down' }).receive('ok', this.gotView.bind(this))
-            case 'ArrowLeft':
-                this.channel.push('move', { direction: 'left' }).receive('ok', this.gotView.bind(this))
-            case 'ArrowRight':
-                this.channel.push('move', { direction: 'right' }).receive('ok', this.gotView.bind(this))
-            case 'a':
-                this.channel.push('turn', { direction: 'left' }).receive('ok', this.gotView.bind(this))
-            case 'd':
-                this.channel.push('turn', { direction: 'right' }).receive('ok', this.gotView.bind(this))
-            case ' ':
-                this.channel.push('shoot').receive('ok', this.gotView.bind(this))
-        }
     }
 
     render() {
