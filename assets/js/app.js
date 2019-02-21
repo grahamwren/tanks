@@ -22,7 +22,7 @@ import tanks_init from "./tanks";
 $(() => {
   let root = document.getElementById('root');
   if (root) {
-    let channel = socket.channel("games:" + window.gameName, {});
+    let channel = socket.channel("game_session:" + window.gameName, {});
     tanks_init(root, channel);
   }
 });
