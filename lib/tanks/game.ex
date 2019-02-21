@@ -74,13 +74,14 @@ defmodule Tanks.Game do
       "up" -> {user.position.x, user.position.y + @move_distance}
       "down" -> {user.position.x, user.position.y - @move_distance}
     end
+    user_position = normalize_position(%{
+      user.position |
+      x: x,
+      y: y
+    })
     [%{
       user |
-      position: %{
-        user.position |
-        x: x,
-        y: y
-      }
+      position: user_position
     } | rest]
   end
   def move_user([user | rest], un, d),
@@ -93,13 +94,31 @@ defmodule Tanks.Game do
       "left" -> user.position.shoot_angle + @turn_delta
       "right" -> user.position.shoot_angle - @turn_delta
     end
+    user_position = normalize_position(%{
+      user.position |
+      shoot_angle: angle
+    })
     [%{
       user |
-      position: %{
-        user.position |
-        shoot_angle: angle
-      }
+      position: user_position
     } | rest]
   end
   def turn_user([user | rest], un, d), do: [user | turn_user(rest, un, d)]
+
+  def normalize_position(position) do
+    x = if (position.x > @game_field_size), do: @game_field_size, else: position.x
+    x = if (x < 0), do: 0, else: x
+
+    y = if (position.y > @game_field_size), do: @game_field_size, else: position.y
+    y = if (y < 0), do: 0, else: y
+
+    angle = rem position.shoot_angle, 360
+    angle = if (angle < 0), do: 360 + angle, else: angle
+
+    %{
+      x: x,
+      y: y,
+      shoot_angle: angle
+    }
+  end
 end
