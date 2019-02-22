@@ -13,7 +13,7 @@ https://github.com/grahamwren/tanks
 
 
 3. What's the version number of your github release?
-v1.0.1
+v1.0.2
 
 
 4. What's the URL that you deployed to?
