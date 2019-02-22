@@ -1,7 +1,14 @@
 import React, {Fragment} from 'react';
 
+const tankRotate = {
+  up: 90,
+  right: 180,
+  down: 270,
+  left: 0
+};
+
 export default function Player(props) {
-  const {name, position, health} = props;
+  const {name, position, health, direction} = props;
 
   const colors = new Map();
   colors.set('blue', 0);
@@ -43,7 +50,7 @@ export default function Player(props) {
           bottom: position.y,
           marginLeft: '-21px',
           marginBottom: '-21px',
-          transform: 'rotate(90deg)',
+          transform: `rotate(${tankRotate[direction]}deg)`,
         }}
       />
       {health > 0 &&
