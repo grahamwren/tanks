@@ -248,4 +248,99 @@ defmodule Tanks.GameTest do
     tp = %{x: 2, y: 1, shoot_angle: 5}
     assert Game.is_hit(sp, tp)
   end
+
+  test "shoot both hit" do
+    game = Game.new "game5"
+    game =
+      game
+      |> Game.join("alex")
+      |> Game.join("sam")
+    game = %Game{
+      game |
+      users: [
+        %{
+          Enum.at(game.users, 0) |
+          position: %{
+            x: 1,
+            y: 1,
+            shoot_angle: 45
+          }
+        },
+        %{
+          Enum.at(game.users, 1) |
+          position: %{
+            x: 200,
+            y: 200,
+            shoot_angle: 225
+          }
+        }
+      ]
+    }
+
+    game =
+      game
+      |> Game.shoot("sam")
+      |> Game.shoot("alex")
+    %{
+      users: [
+        %{
+          health: sam_health
+        },
+        %{
+          health: alex_health
+        }
+      ]
+    } = game
+
+    assert sam_health == 60
+    assert alex_health == 60
+  end
+
+
+  test "shoot one hit one miss" do
+    game = Game.new "game6"
+    game =
+      game
+      |> Game.join("alex")
+      |> Game.join("sam")
+    game = %Game{
+      game |
+      users: [
+        %{
+          Enum.at(game.users, 0) |
+          position: %{
+            x: 1,
+            y: 1,
+            shoot_angle: 40
+          }
+        },
+        %{
+          Enum.at(game.users, 1) |
+          position: %{
+            x: 200,
+            y: 200,
+            shoot_angle: 225
+          }
+        }
+      ]
+    }
+
+    game =
+      game
+      |> Game.shoot("sam")
+      |> Game.shoot("alex")
+    %{
+      users: [
+        %{
+          health: sam_health
+        },
+        %{
+          health: alex_health
+        }
+      ]
+    } = game
+
+    assert sam_health == 60
+    assert alex_health == 100
+  end
 end

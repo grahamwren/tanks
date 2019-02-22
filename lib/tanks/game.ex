@@ -4,7 +4,7 @@ defmodule Tanks.Game do
   @game_field_size 400
   @move_distance 5
   @turn_delta 2
-  @shot_damage 30
+  @shot_damage 40
   @shot_accuracy 2
 
   defstruct [
