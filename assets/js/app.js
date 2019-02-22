@@ -3,7 +3,7 @@
 // its own CSS file.
 import $ from 'jquery';
 // eslint-disable-next-line no-unused-vars
-import css from '../css/app.scss';
+import css from '../css/app.css';
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
