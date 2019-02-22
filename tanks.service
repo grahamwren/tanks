@@ -1,0 +1,16 @@
+[Unit]
+Description=Tanks Game
+
+[Service]
+Type=simple
+User=tanks
+Group=tanks
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4793"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/tanks/tanks
+ExecStart=/home/tanks/tanks/start.sh
+
+[Install]
+WantedBy=multi-user.target
