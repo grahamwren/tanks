@@ -49,12 +49,14 @@ class Tanks extends React.Component {
     const { gameView } = this.state;
 
     return (
-      <div style={{
-        width: '400px',
-        height: '400px',
-        border: '1px solid black',
-        position: 'relative'
-      }}
+      <div
+        style={{
+          width: '400px',
+          height: '400px',
+          position: 'relative',
+          margin: '0 auto'
+        }}
+        className="rounded border"
       >
         { gameView.positions.map(position => Player(position)) }
       </div>

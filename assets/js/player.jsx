@@ -31,18 +31,37 @@ export default function Player(props) {
   }
 
   return (
-    <img
-      key={name}
-      src={`/images/tank_${tankColor}.png`}
-      alt=""
-      style={{
-        position: 'absolute',
-        left: position.x,
-        bottom: position.y,
-        marginLeft: '-23px',
-        marginBottom: '-21px',
-        transform: `rotate(${position.shoot_angle}deg)`,
-      }}
-    />
+    <div key={name}>
+      <img
+        key={name}
+        src={`/images/tank_${tankColor}_barrel.png`}
+        alt=""
+        style={{
+          position: 'absolute',
+          left: position.x,
+          bottom: position.y,
+          paddingLeft: '30px',
+          marginLeft: '-30px',
+          marginBottom: '-8px',
+          transform: `rotate(${position.shoot_angle}deg)`,
+          zIndex: 1
+        }}
+      />
+      <img
+        key={name}
+        src={`/images/tank_${tankColor}.png`}
+        alt=""
+        style={{
+          width: '42px',
+          height: '42px',
+          position: 'absolute',
+          left: position.x,
+          bottom: position.y,
+          marginLeft: '-21px',
+          marginBottom: '-21px',
+          transform: 'rotate(90deg)',
+        }}
+      />
+    </div>
   );
 }
