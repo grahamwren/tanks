@@ -7,7 +7,7 @@ import { Socket } from 'phoenix';
 
 const socket = new Socket('/socket', {
   params: {
-    userName: window.userName || window.prompt('Please enter a username')
+    userName: window.userName || (window.userName = window.prompt('Please enter a username'))
   }
 });
 

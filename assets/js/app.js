@@ -17,13 +17,11 @@ import 'bootstrap';
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-import socket from './socket';
 import tanks from './tanks';
 
 $(() => {
   const root = document.getElementById('root');
   if (root) {
-    const channel = socket.channel(`game_session:${window.gameName}`, {});
-    tanks(root, channel);
+    tanks(root);
   }
 });

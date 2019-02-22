@@ -1,2 +1,14 @@
 /* This file is for your main application css. */
 @import "~bootstrap/scss/bootstrap";
+
+.winBar {
+  height: 2rem;
+  text-align: center;
+}
+
+.healthBar {
+  background: green;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
