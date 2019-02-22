@@ -96,6 +96,10 @@ class Tanks extends React.Component {
       _.find(this.state.gameView.positions, user => user.name === window.userName);
   }
 
+  resetGame() {
+    this.channel.push('reset');
+  }
+
   render() {
     const { gameView } = this.state;
     if (!window.gameName) {
@@ -107,6 +111,9 @@ class Tanks extends React.Component {
 
     return (
       <div className="container">
+        <div className="button-container">
+          <input type="button" onClick={this.resetGame.bind(this)}>Reset Game</input>
+        </div>
         {this.getWinBar()}
         <div
           style={{
