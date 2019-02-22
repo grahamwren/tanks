@@ -41,6 +41,13 @@ defmodule TanksWeb.GameSessionChannel do
     {:noreply, socket}
   end
 
+  def handle_in("reset", _, socket) do
+    game_name = socket.assigns.name
+    view = GameServer.reset(game_name)
+    TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
+    {:noreply, socket}
+  end
+
   # Add authorization logic here as required.
   defp authorized?(game_name, user) do
     user !== "" && user !== nil && game_name !== "" && game_name !== nil

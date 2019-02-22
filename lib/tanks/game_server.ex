@@ -51,6 +51,7 @@ defmodule Tanks.GameServer do
     user: user,
     direction: direction
   }})
+  def reset(name), do: __MODULE__.call(name, :reset)
 
   # Instance handlers
 
@@ -95,5 +96,12 @@ defmodule Tanks.GameServer do
     user_view_state = Game.get_user_view(game, user)
     GameBackupAgent.put game.name, game
     {:reply, user_view_state, game}
+  end
+
+  @impl true
+  def handle_call(:reset, _from, game) do
+    game = Game.new game.name
+    GameBackupAgent.put game.name, game
+    {:reply, Game.get_user_view(game, nil), game}
   end
 end
