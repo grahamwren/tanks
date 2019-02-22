@@ -51,7 +51,7 @@ class Tanks extends React.Component {
     return (
       <div
         style={{
-          padding: '25px', margin: '0 auto', width: '450px', height: '450px'
+          padding: '50px', margin: '0 auto', width: '500px', height: '500px'
         }}
         className="rounded border"
       >

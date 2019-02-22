@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Player(props) {
-  const { name, position } = props;
+  const { name, position, health } = props;
 
   const colors = new Map();
   colors.set('blue', 0);
@@ -60,6 +60,24 @@ export default function Player(props) {
           transform: 'rotate(90deg)',
         }}
       />
+      <div
+        className="card text-center text-nowrap"
+        style={{
+          position: 'absolute', left: position.x, bottom: position.y - 50, padding: 0, marginLeft: '-40px', width: '80px'
+        }}
+      >
+        {name}
+      </div>
+      <div
+        className="text-center text-nowrap"
+        style={{
+          position: 'absolute', left: position.x, bottom: position.y + 25, padding: 0, marginLeft: '-50px', width: '100px'
+        }}
+      >
+        Health:
+        {' '}
+        {health}
+      </div>
     </div>
   );
 }
