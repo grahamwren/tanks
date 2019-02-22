@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import Player from './player';
+import socket from "./socket";
 
-export default function tanks(root, channel) {
-  ReactDOM.render(<Tanks channel={channel} />, root);
+export default function tanks(root) {
+  ReactDOM.render(<Tanks/>, root);
 }
 
 const m = {
@@ -21,13 +22,15 @@ const m = {
 class Tanks extends React.Component {
   constructor(props) {
     super(props);
-    this.channel = props.channel;
     this.state = {
       gameView: {
         positions: []
       }
     };
+  }
 
+  setupChannel() {
+    this.channel = socket.channel(`game_session:${window.gameName}`, {});
     this.channel
       .join()
       .receive('ok', this.gotView.bind(this))
@@ -37,7 +40,7 @@ class Tanks extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', e => (m[e.key] || (() => {}))(this.channel, this.gotView.bind(this)));
+    document.addEventListener('keydown', e => this.channel && (m[e.key] || (() => {}))(this.channel, this.gotView.bind(this)));
   }
 
   gotView(gameView) {
@@ -95,6 +98,12 @@ class Tanks extends React.Component {
 
   render() {
     const { gameView } = this.state;
+    if (!window.gameName) {
+      window.gameName = prompt("Please enter a game name", "default");
+    }
+    if (!this.channel) {
+      this.setupChannel();
+    }
 
     return (
       <div className="container">
