@@ -5,7 +5,7 @@ defmodule Tanks.Game do
   @move_distance 5
   @turn_delta 2
   @shot_damage 40
-  @shot_accuracy 2
+  @shot_accuracy 10
 
   defstruct [
     name: "",
@@ -28,6 +28,7 @@ defmodule Tanks.Game do
         users: [%{
           name: user_name,
           health: 100,
+          direction: "up",
           position: %{
             x: :rand.uniform(@game_field_size) - 1,
             y: :rand.uniform(@game_field_size) - 1,
@@ -95,6 +96,7 @@ defmodule Tanks.Game do
         end
         %{
           user |
+          direction: direction,
           position: normalize_position(%{
             user.position |
             x: x,
@@ -164,7 +166,9 @@ defmodule Tanks.Game do
       []
     else
       hit_users = Enum.filter(targets, fn %{position: t_position} ->
-        is_hit(shooter.position, t_position)
+        is_hit(shooter.position, t_position) ||
+        is_hit(%{shooter.position | shoot_angle: shooter.position.shoot_angle + 1}, t_position) ||
+        is_hit(%{shooter.position | shoot_angle: shooter.position.shoot_angle - 1}, t_position)
       end)
       Enum.map(hit_users, fn hit_target ->
         %{

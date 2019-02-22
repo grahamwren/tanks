@@ -64,6 +64,7 @@ defmodule Tanks.GameTest do
       users: [
         %{
           name: "alex",
+          direction: "left",
           position: user_position
         } | []
       ]
@@ -71,6 +72,9 @@ defmodule Tanks.GameTest do
     assert user_position.x < old_user_position.x
     assert user_position.y === old_user_position.y
     assert user_position.shoot_angle === old_user_position.shoot_angle
+
+    game = Game.move(game, "alex", "right")
+    assert Enum.at(game.users, 0).direction == "right"
   end
 
   test "move offscreen" do
