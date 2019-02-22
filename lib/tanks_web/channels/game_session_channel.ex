@@ -34,7 +34,9 @@ defmodule TanksWeb.GameSessionChannel do
 
   def handle_in("shoot", _, socket) do
     game_name = socket.assigns.name
-    view = GameServer.shoot(game_name, socket.assigns.user_name)  
+    user_name = socket.assigns.user_name
+    view = GameServer.shoot(game_name, user_name)
+    TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "shot_fired", %{player: user_name}
     TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
     {:noreply, socket}
   end
