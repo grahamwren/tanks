@@ -40,13 +40,24 @@ class Tanks extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', e => this.channel && (m[e.key] || (() => {}))(this.channel, this.gotView.bind(this)));
+    document.addEventListener(
+      'keydown',
+      e =>
+        this.channel &&
+        (m[e.key] || (() => {}))(this.channel, this.gotView.bind(this)) && e.preventDefault());
+  }
+
+  componentDidUpdate() {
+    this.ensureInGame()
   }
 
   gotView(gameView) {
-    console.log('View:', gameView);
     const newState = { ...this.state, gameView };
     this.setState(newState);
+  }
+
+  ensureInGame() {
+    this.getMyUser() || this.channel.push("join");
   }
 
   getWinBar() {
@@ -112,7 +123,7 @@ class Tanks extends React.Component {
     return (
       <div className="container">
         <div className="button-container">
-          <input type="button" onClick={this.resetGame.bind(this)} value="Reset Game"/>
+          <button onClick={this.resetGame.bind(this)}>Reset Game</button>
         </div>
         {this.getWinBar()}
         <div

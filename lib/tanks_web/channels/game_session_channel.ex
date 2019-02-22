@@ -43,7 +43,15 @@ defmodule TanksWeb.GameSessionChannel do
 
   def handle_in("reset", _, socket) do
     game_name = socket.assigns.name
-    view = GameServer.reset(game_name)
+    GameServer.reset(game_name)
+    view = GameServer.join(game_name, socket.assigns.user_name)
+    TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
+    {:noreply, socket}
+  end
+
+  def handle_in("join", _, socket) do
+    game_name = socket.assigns.name
+    view = GameServer.join(game_name, socket.assigns.user_name)
     TanksWeb.Endpoint.broadcast "game_session:" <> game_name, "view_update", view
     {:noreply, socket}
   end
