@@ -33,7 +33,6 @@ export default function Player(props) {
   return (
     <div key={name}>
       <img
-        key={name}
         src={`/images/tank_${tankColor}_barrel.png`}
         alt=""
         style={{
@@ -43,12 +42,11 @@ export default function Player(props) {
           paddingLeft: '30px',
           marginLeft: '-30px',
           marginBottom: '-8px',
-          transform: `rotate(${position.shoot_angle}deg)`,
+          transform: `rotate(${-position.shoot_angle}deg)`,
           zIndex: 1
         }}
       />
       <img
-        key={name}
         src={`/images/tank_${tankColor}.png`}
         alt=""
         style={{

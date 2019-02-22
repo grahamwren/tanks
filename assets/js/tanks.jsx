@@ -51,14 +51,21 @@ class Tanks extends React.Component {
     return (
       <div
         style={{
-          width: '400px',
-          height: '400px',
-          position: 'relative',
-          margin: '0 auto'
+          padding: '25px', margin: '0 auto', width: '450px', height: '450px'
         }}
         className="rounded border"
       >
-        { gameView.positions.map(position => Player(position)) }
+        <div
+          style={{
+            width: '400px',
+            height: '400px',
+            position: 'relative',
+            margin: '0 auto',
+            zIndex: 1
+          }}
+        >
+          { gameView.positions.map(position => Player(position)) }
+        </div>
       </div>
     );
   }
