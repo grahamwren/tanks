@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import Player from './player';
 
@@ -45,26 +46,80 @@ class Tanks extends React.Component {
     this.setState(newState);
   }
 
+  getWinBar() {
+    if (this.didILose()) {
+      return <div className="winBar">
+        You Lost
+      </div>
+    }
+    if (this.didIWin()) {
+      return <div className="winBar">
+        You Won!
+      </div>
+    }
+    return <div className="winBar">
+      <div className="healthBar" style={{width: `${this.getMyHealth()}%`}}>Health</div>
+    </div>
+  }
+
+  didILose() {
+    return this.getMyHealth() <= 0;
+  }
+
+  didIWin() {
+    return this.getMyHealth() > 0 && this.getAllOthersDestroyed();
+  }
+
+  getMyHealth() {
+    const myUser = this.getMyUser();
+    return (myUser && myUser.health) || 0;
+  }
+
+  getAllOthersDestroyed() {
+    return this.state &&
+           this.state.gameView &&
+           this.state.gameView.positions &&
+           _.reduce(
+             this.state.gameView.positions,
+             (acc, user) => acc && (user.health <= 0 || user.name === window.userName),
+             true
+           );
+  }
+
+  getMyUser() {
+    return this.state &&
+      this.state.gameView &&
+      this.state.gameView.positions &&
+      _.find(this.state.gameView.positions, user => user.name === window.userName);
+  }
+
   render() {
     const { gameView } = this.state;
 
     return (
-      <div
-        style={{
-          padding: '50px', margin: '0 auto', width: '500px', height: '500px'
-        }}
-        className="rounded border"
-      >
+      <div className="container">
+        {this.getWinBar()}
         <div
           style={{
-            width: '400px',
-            height: '400px',
-            position: 'relative',
+            padding: '50px',
             margin: '0 auto',
-            zIndex: 1
+            width: '500px',
+            height: '500px',
+            backgroundImage: "url('/images/tileGrass.jpeg')"
           }}
+          className="rounded border"
         >
-          { gameView.positions.map(position => Player(position)) }
+          <div
+            style={{
+              width: '400px',
+              height: '400px',
+              position: 'relative',
+              margin: '0 auto',
+              zIndex: 1
+            }}
+          >
+            { gameView.positions.map(position => Player(position)) }
+          </div>
         </div>
       </div>
     );
