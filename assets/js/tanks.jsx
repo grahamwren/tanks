@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Player from './player';
+
 export default function tanks(root, channel) {
   ReactDOM.render(<Tanks channel={channel} />, root);
 }
@@ -19,7 +21,11 @@ class Tanks extends React.Component {
   constructor(props) {
     super(props);
     this.channel = props.channel;
-    this.state = {};
+    this.state = {
+      gameView: {
+        positions: []
+      }
+    };
 
     this.channel
       .join()
@@ -33,12 +39,25 @@ class Tanks extends React.Component {
     document.addEventListener('keydown', e => (m[e.key] || (() => {}))(this.channel, this.gotView.bind(this)));
   }
 
-  gotView(view) {
-    console.log('View:', view);
-    this.setState(view.game);
+  gotView(gameView) {
+    console.log('View:', gameView);
+    const newState = { ...this.state, gameView };
+    this.setState(newState);
   }
 
   render() {
-    return <div>Hello World!</div>;
+    const { gameView } = this.state;
+
+    return (
+      <div style={{
+        width: '400px',
+        height: '400px',
+        border: '1px solid black',
+        position: 'relative'
+      }}
+      >
+        { gameView.positions.map(position => Player(position)) }
+      </div>
+    );
   }
 }

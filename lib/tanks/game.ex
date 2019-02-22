@@ -5,7 +5,7 @@ defmodule Tanks.Game do
   @move_distance 5
   @turn_delta 2
   @shot_damage 30
-  @shot_accuracy 2
+  @shot_accuracy 10
 
   defstruct [
     name: "",
