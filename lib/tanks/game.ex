@@ -48,7 +48,7 @@ defmodule Tanks.Game do
           game |
           users: damage_user(game.users, hit_user)
         }
-        :no_hit
+        :no_hit -> game
       end
     end
   end
